@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   nginx:
     container_name: nginx_benchmark
@@ -34,7 +32,6 @@ services:
       IMGPROXY_BIND: ":80"
       IMGPROXY_MAX_SRC_RESOLUTION: 99
       IMGPROXY_JPEG_PROGRESSIVE: 1
-      IMGPROXY_AVIF_SPEED: 9
     depends_on:
       nginx:
         condition: service_healthy
@@ -64,10 +61,9 @@ services:
 
   imagor:
     container_name: imagor_benchmark
-    image: ghcr.io/cshum/imagor:latest
+    image: ${IMAGOR_IMAGE:-ghcr.io/cshum/imagor:latest}
     restart: unless-stopped
     tty: true
-    command: [-server-access-log]
     ports:
       - 9004:80
     environment:
@@ -77,8 +73,7 @@ services:
       nginx:
         condition: service_healthy
     healthcheck:
-      # imagor image doesn't contain curl
-      test: ["CMD-SHELL", "timeout 5s bash -c ':> /dev/tcp/127.0.0.1/80' || exit 1"]
+      test: ["CMD-SHELL", "curl -so /dev/null http://localhost:80/ || exit 1"]
       interval: 5s
       timeout: 5s
       start_period: 10s

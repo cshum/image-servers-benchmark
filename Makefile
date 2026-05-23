@@ -3,11 +3,13 @@ SHELL := /usr/bin/env bash
 
 COMPOSE_ARGS=
 
-DURATION='5m'
-FORMAT=
-TOOL=
-WIDTH=512
-HEIGHT=512
+CPU_COUNT := $(shell command -v nproc >/dev/null 2>&1 && nproc || getconf _NPROCESSORS_ONLN 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 1)
+
+DURATION ?= 5m
+FORMAT ?=
+TOOL ?=
+WIDTH ?= 512
+HEIGHT ?= 512
 
 check_defined = \
     $(strip $(foreach 1,$1, \
@@ -46,12 +48,12 @@ endif
 
 
 down:
-	docker compose down
+	docker compose down --remove-orphans
 
 
 up:
 	$(call check_defined, TOOL, a tool to run)
-	sed -E "s/ENGINE_THREADPOOL_SIZE = ([0-9]+)/ENGINE_THREADPOOL_SIZE = $$(nproc)/" thumbor/thumbor.conf.in > thumbor/thumbor.conf
+	sed -E "s/ENGINE_THREADPOOL_SIZE = ([0-9]+)/ENGINE_THREADPOOL_SIZE = ${CPU_COUNT}/" thumbor/thumbor.conf.in > thumbor/thumbor.conf
 	docker compose up nginx ${TOOL} ${COMPOSE_ARGS}
 
 up-imgproxy: TOOL=imgproxy
@@ -70,7 +72,7 @@ k6:
 	$(call check_defined, WIDTH, the resulting image width)
 	$(call check_defined, HEIGHT, the resulting image height)
 
-	docker compose run --rm k6 run -u $$(nproc) -d ${DURATION} \
+	docker compose run --rm k6 run -u ${CPU_COUNT} -d ${DURATION} \
 		-e FORMAT="${FORMAT}" \
 		-e TOOL="${TOOL}" \
 		-e WIDTH=${WIDTH} \

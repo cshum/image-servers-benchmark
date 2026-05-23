@@ -52,3 +52,15 @@ We strongly recommend running the benchmarks on a separate machine purposed for 
     ```bash
     make bench-imgproxy FORMAT=jpeg
     ```
+
+    You can also override the benchmark duration and output size from the command line:
+
+    ```bash
+    make bench-imagor FORMAT=avif DURATION=30s WIDTH=512 HEIGHT=512
+    ```
+
+    To benchmark a locally built imagor image instead of the default published tag:
+
+    ```bash
+    IMAGOR_IMAGE=imagor:r10-local make bench-imagor FORMAT=avif DURATION=30s
+    ```
