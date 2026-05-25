@@ -6,6 +6,7 @@ COMPOSE_ARGS=
 CPU_COUNT := $(shell command -v nproc >/dev/null 2>&1 && nproc || getconf _NPROCESSORS_ONLN 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 1)
 
 DURATION ?= 5m
+WARMUP_DURATION ?= 10s
 FORMAT ?=
 TOOL ?=
 WIDTH ?= 512
@@ -72,7 +73,16 @@ k6:
 	$(call check_defined, WIDTH, the resulting image width)
 	$(call check_defined, HEIGHT, the resulting image height)
 
-	docker compose run --rm k6 run -u ${CPU_COUNT} -d ${DURATION} \
+	if [ -n "${WARMUP_DURATION}" ]; then \
+		docker compose run --rm -T k6 run -u ${CPU_COUNT} -d ${WARMUP_DURATION} \
+			-e FORMAT="${FORMAT}" \
+			-e TOOL="${TOOL}" \
+			-e WIDTH=${WIDTH} \
+			-e HEIGHT=${HEIGHT} \
+			k6.js >/dev/null; \
+	fi
+
+	docker compose run --rm -T k6 run -u ${CPU_COUNT} -d ${DURATION} \
 		-e FORMAT="${FORMAT}" \
 		-e TOOL="${TOOL}" \
 		-e WIDTH=${WIDTH} \
