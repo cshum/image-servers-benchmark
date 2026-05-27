@@ -1,5 +1,7 @@
 # Benchmark Results
 
+For the public-facing benchmark summary and charts, see the [imagor benchmark docs](https://docs.imagor.net/benchmarks).
+
 Latest canonical release-tag rerun: 2026-05-28 detached AWS benchmark in Singapore.
 
 - region: `ap-southeast-1`
@@ -16,4 +18,4 @@ AWS servers:
 - arm64: AWS EC2 `c7g.large` in `ap-southeast-1`, host timestamp `20260527-181216`
 - x86_64: AWS EC2 `c7i.large` in `ap-southeast-1`, host timestamp `20260527-181318`
 
-The architecture summary files above are intended to be the readable benchmark docs.
+The files in this directory are the committed benchmark summaries and raw result references.

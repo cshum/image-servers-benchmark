@@ -1,5 +1,7 @@
 # ARM64
 
+For the public-facing benchmark summary and charts, see the [imagor benchmark docs](https://docs.imagor.net/benchmarks).
+
 Updated 2026-05-28 from detached Singapore AWS rerun.
 
 - AWS server: EC2 `c7g.large` in `ap-southeast-1`
