@@ -18,4 +18,4 @@ AWS servers:
 - arm64: AWS EC2 `c7g.large` in `ap-southeast-1`, host timestamp `20260527-181216`
 - x86_64: AWS EC2 `c7i.large` in `ap-southeast-1`, host timestamp `20260527-181318`
 
-The files in this directory are the committed benchmark summaries and raw result references.
+The files in this directory are the committed benchmark summaries.

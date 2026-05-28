@@ -7,7 +7,7 @@ This repository contains the code used to benchmark the performance of different
 * imagor
 
 > [!NOTE]
-> If you aren't interested in running the benchmarks yourself, see the [imagor benchmark docs](https://docs.imagor.net/benchmarks) for the summary and charts. You can find the committed run summaries and raw k6 outputs in the [results](results) directory.
+> If you aren't interested in running the benchmarks yourself, see the [imagor benchmark docs](https://docs.imagor.net/benchmarks) for the summary and charts. The latest committed summaries currently cover the 2026-05-28 AWS rerun, and are available in the [results](results) directory.
 
 ## Running the benchmarks
 
